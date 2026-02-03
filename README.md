@@ -1,37 +1,33 @@
-🛡️ Subdomain Discovery Tool
-A modular reconnaissance scanner for DNS enumeration and security auditing.
+S U B - R E C O N
+An advanced modular engine for targeted attack surface mapping and DNS enumeration.
+I. A R C H I T E C T U R E
+The core philosophy of this project is based on a decoupled functional approach. By isolating data ingestion from the resolution engine, the tool ensures maximum reliability and prepares the foundation for high-speed asynchronous scaling.
 
-🎯 Project Goals
-Modular Design: Separate I/O, Logic, and Orchestration.
+II. K E Y  -  O B J E C T I V E S
+INPUT NORMALIZATION
+Extraction of Fully Qualified Domain Names (FQDN) from raw, unformatted user strings to ensure data integrity before execution.
 
-Resilience: Handle DNS Wildcards and invalid user inputs.
+DNS RESOLUTION SPECIALIST
+Isolated socket-based lookup logic with granular exception handling designed for network-level resilience.
 
-Clean Code: Industry-standard Python structure (PEP 8).
+WILDCARD MITIGATION
+Automated pre-scan identification of catch-all DNS records to eliminate false-positive results in large datasets.
 
-🛠️ Development Phases
-Phase 1: Ingestion & Sanitization
-[ ] clean_url(input): Strip protocols (http/https), www, and paths to extract the raw FQDN.
+III. D E V E L O P M E N T  -  P L A N
+Phase I: The Core Framework
+Implementation of the modular processing pipeline.
 
-[ ] load_wordlist(path): Securely read and sanitize wordlist entries (remove whitespace/newlines).
+Development of the standardized DNS resolution interface.
 
-Phase 2: Core DNS Logic (The MVP)
-[ ] dns_check(domain): Implement socket.gethostbyname.
+Phase II: Security Intelligence
+Automated wildcard detection and result filtering.
 
-[ ] Error Handling: Gracefully handle socket.gaierror (return None on failure).
+Integration of high-speed wordlist processing and sanitization.
 
-Phase 3: Advanced Detection
-[ ] wildcard_check(target): Detect "Catch-all" DNS records via random sub-domain probing.
+Phase III: Performance & Output
+Migration to concurrent execution models (AsyncIO/Threading).
 
-[ ] False-Positive Filtering: Compare scan results against the Wildcard IP.
+Structured data export formats for automated security pipelines.
 
-Phase 4: Orchestration
-[ ] main(): Coordinate the data flow (Input -> Clean -> Pre-check -> Scan).
-
-[ ] CLI Interaction: Implement user-driven target selection.
-
-Phase 5: Future Scope (Scaling)
-[ ] Concurrency: Implement threading or asyncio for high-speed scanning.
-
-[ ] HTTP Probing: Verify active web services (Status Codes 200, 403, etc.).
-
-[ ] Data Export: Support for JSON/TXT output formats.
+IV. O P E R A T I O N A L  -  S A F E T Y
+This software is architected strictly for authorized security auditing and educational research. The developer assumes no liability for unauthorized usage or any potential damages resulting from the execution of this tool.
