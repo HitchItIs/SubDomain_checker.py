@@ -1,57 +1,37 @@
-🛠 Phase 1: Ingestion & Sanitization (The Foundation)
+🛡️ Subdomain Discovery Tool
+A modular reconnaissance scanner for DNS enumeration and security auditing.
 
+🎯 Project Goals
+Modular Design: Separate I/O, Logic, and Orchestration.
 
-[ ] Task 1: The Target Cleaner (clean_url)
+Resilience: Handle DNS Wildcards and invalid user inputs.
 
-Goal: Handle user copy-pasting full URLs (e.g., https://google.com/search).
+Clean Code: Industry-standard Python structure (PEP 8).
 
-Logic: Strip http://, https://, www., and everything after the /.
+🛠️ Development Phases
+Phase 1: Ingestion & Sanitization
+[ ] clean_url(input): Strip protocols (http/https), www, and paths to extract the raw FQDN.
 
+[ ] load_wordlist(path): Securely read and sanitize wordlist entries (remove whitespace/newlines).
 
-[ ] Task 2: The Wordlist Loader (load_wordlist)
+Phase 2: Core DNS Logic (The MVP)
+[ ] dns_check(domain): Implement socket.gethostbyname.
 
-Goal: Read your names.txt file (containing dev, api, admin).
+[ ] Error Handling: Gracefully handle socket.gaierror (return None on failure).
 
-Logic: Open file, .splitlines(), and .strip() each line to remove hidden spaces.
+Phase 3: Advanced Detection
+[ ] wildcard_check(target): Detect "Catch-all" DNS records via random sub-domain probing.
 
+[ ] False-Positive Filtering: Compare scan results against the Wildcard IP.
 
- Phase 2: The Core Logic (The Specialist)
+Phase 4: Orchestration
+[ ] main(): Coordinate the data flow (Input -> Clean -> Pre-check -> Scan).
 
-[ ] Task 3: The DNS Specialist (dns_check)
+[ ] CLI Interaction: Implement user-driven target selection.
 
-Goal: Check if ONE specific domain exists.
+Phase 5: Future Scope (Scaling)
+[ ] Concurrency: Implement threading or asyncio for high-speed scanning.
 
-Logic: Takes full_domain (String) -> try/except socket.gaierror -> returns IP Address (String) or None..
+[ ] HTTP Probing: Verify active web services (Status Codes 200, 403, etc.).
 
- Phase 3: The  Gatekeeper (Wildcard Detection)
-This prevents 10,000 "fake" results if a server is set to catch-all.
-
-[ ] Task 4: The Wildcard Probe (check_wildcard)
-
-Goal: Detect if the target server "lies" by resolving everything.
-
-Logic: Generate a random string (e.g., asdf123.target.com). If it resolves to an IP, save that IP as a "Wildcard IP."
-
-
-Phase 4: Orchestration (The Controller)
-
-[ ] Task 5: The Main Loop (run_scanner)
-
-Goal: Coordinate the flow.
-
-Flow: 1. Get Input -> 2. Clean Target -> 3. Load Wordlist -> 4. Run Wildcard Check -> 5. Loop & Print Results.
-
-[ ] Task 6: The "Entry Point" (if __name__ == "__main__":)
-
-Logic: This ensures the code only runs if the file is executed directly, not imported.
-
- Phase 5: Future Expansion (What's coming later)
-Once the foundation is rock solid, we will add these "Senior" features.
-
-[ ] Concurrency: Use threading to check 50 domains at once (Speed boost 100x).
-
-[ ] HTTP Probing: Don't just find IPs—check for web servers and read their titles/status codes.
-
-[ ] Exporting: Automatically save "Hits" into a results.txt file.
-
-[ ] CLI Arguments: Use argparse so you can run it like a pro: python scanner.py -t google.com -w mylist.txt.
+[ ] Data Export: Support for JSON/TXT output formats.
