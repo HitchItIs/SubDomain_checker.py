@@ -1,21 +1,25 @@
 import socket
+from urllib.parse import urlparse
+import argparse
+
 
 # input
 def data_read(filepath):
     try:
         with open (filepath) as file:
-            data = [line.strip()for line in file if line.strip()]
-        return data
-    except FileNotFoundError:
-        print("Error file was not found")
+            for line in file:
+                clean_line = (line.strip())
+                yield clean_line
+    except FileNotFoundError: print ("No File was selected")
 
 
 #url_cleaner
 def clean_url(target):
-    target = target.replace("https://", "").replace("http://","")
-    target = target.split("/")[0]
-    return target
-
+    if "://" not in target:
+        target = "http://" + target
+    parsed = urlparse(target)
+    return parsed.hostname
+   
 
 #DNS check
 def dns_check(domain):
@@ -28,16 +32,23 @@ def dns_check(domain):
 
 # Main control
 def orchester():
-    raw_target = input("Which domain do you want to scan?")
-    base_domain = clean_url(raw_target)
-    raw_list =  data_read("names.txt")
+    parser = argparse.ArgumentParser(description="Subdomain Scanner v 0.1")
+    parser.add_argument("-t","--target", required=True, help="Domain to scan (e.g., google.com)")
+    parser.add_argument("-w", "--wordlist", default="names.txt", help="Path to the wordlist file")
+    args = parser.parse_args()
+    base_domain = clean_url(args.target)
+    raw_list = data_read(args.wordlist)
     if not raw_list:
-        print ("Error, try again")
+        print("Error: Wordlist is empty or could not be read.")
         return
-    for entry in raw_list:
-        full_target = f"{entry}.{base_domain}"
-        ip_adress = dns_check(full_target)
-        print(f"Ergebnis für {full_target}: {ip_adress}")
+    for line in raw_list:
+        subdomain = line.strip()
+        if not subdomain:
+            continue
+        full_target = f"{subdomain}.{base_domain}"
+        ip_address = dns_check(full_target)
+        if ip_address:
+            print(f"Found: {full_target} -> {ip_address}")
 
 
 if __name__ == "__main__":
