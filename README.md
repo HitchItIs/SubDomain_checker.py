@@ -1,15 +1,15 @@
-# SUB-RECON 🔍
+# SUB-RECON 
 **Targeted Attack Surface Mapping & DNS Enumeration**
 
 ## I. Architecture & Philosophy
 Built on a **decoupled functional approach**. By isolating data ingestion from the resolution logic, the tool ensures reliability and provides a foundation for future asynchronous scaling (AsyncIO).
 
-Roadmap & Future Development#
+Roadmap & Future Development
 ----
 1. Stability & Bugfixing (Highest Priority)
-[ ] Logic Refactoring: Change dns_check to return None instead of error strings to prevent false-positive "Found" results.
+] Logic Refactoring: Change dns_check to return None instead of error strings to prevent false-positive "Found" results.
 
-[ ] Robust Error Handling: Implement a custom Exception-System instead of simple print statements in the data ingestion layer.
+[x] Robust Error Handling: Implement a custom Exception-System instead of simple print statements in the data ingestion layer.
 
 [ ] Input Sanitization: Add more rigorous checks for malformed wordlists and edge-case URLs.
 
@@ -23,7 +23,7 @@ Roadmap & Future Development#
 3. Security Features (Recon Intelligence)
 [ ] Wildcard Detection: Implement a pre-scan check to identify "catch-all" DNS records, preventing thousands of false-positive results.
 
-[ ] Custom Timeouts: Add an option to set socket timeouts to prevent the scanner from hanging on unresponsive DNS servers.
+[x] Custom Timeouts: Add an option to set socket timeouts to prevent the scanner from hanging on unresponsive DNS servers.
 
 [ ] Multi-DNS Support: Allow the user to specify custom DNS resolvers (e.g., 8.8.8.8) to bypass local DNS caching.
 
